@@ -1,0 +1,563 @@
+/* body {
+    font-family: "Lato", sans-serif;
+} */
+
+body,
+button {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #F5FAFA;
+}
+
+h1 {
+    font-size: 24px;
+    color: #333;
+    font-weight: bold;
+    margin: 0;
+    padding: 0;
+
+}
+
+/* general sideToolBar styling */
+/* Basic styling */
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+}
+
+footer {
+    position: absolute;
+    bottom: 10%;
+    width: 100%;
+    text-align: center;
+    /* Center the button horizontally */
+}
+
+h1 {
+    font-size: 24px;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+#toolbar {
+    margin-bottom: 20px;
+}
+
+.tool {
+    padding: 10px 20px;
+    margin-right: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.tool:hover {
+    background-color: #0056b3;
+}
+
+.task-bar {
+    position: fixed;
+    top: 0;
+    right: -250px;
+    /* Hide the task bar off-screen */
+    width: 250px;
+    height: 100%;
+    background-color: #f9f9f9;
+    border-left: 1px solid #ccc;
+    transition: right 0.3s;
+    z-index: 1000;
+    /* Make sure it's above other content */
+    padding: 10px;
+    max-height: 100%;
+    /* Adjust the height as needed */
+    overflow-y: auto;
+}
+
+.toggle-task-bar {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1001;
+    /* Above the task bar */
+}
+
+.task-bar input[type="checkbox"]:checked+label {
+    text-decoration: line-through;
+    color: #aaa;
+}
+
+.sideToolBar {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #D5E5E5;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 0;
+}
+
+
+/* sideToolBar anchor styling */
+.sideToolBar a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+
+/* sideToolBar buttons styling for hover action */
+.sideToolBar a:hover {
+    color: #f1f1f1;
+}
+
+/* sideToolBar styling on close */
+.sideToolBar .closebtn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 30px;
+    margin-left: 100px;
+    padding: 4px;
+}
+
+/* General styling for open buttons */
+.openbtn {
+    background-color: #006666;
+    /* Green background */
+    color: white;
+    /* White text */
+    padding: 15px 25px;
+    /* Padding for a larger clickable area */
+    border: none;
+    /* Remove default border */
+    border-radius: 5px;
+    /* Rounded corners */
+    text-align: center;
+    /* Center text alignment */
+    text-decoration: none;
+    /* No underlining */
+    display: inline-block;
+    /* Allows setting dimensions */
+    font-size: 16px;
+    /* Larger text for better readability */
+    cursor: pointer;
+    /* Cursor indicates clickable */
+    transition: background-color 0.3s;
+    /* Smooth transition for hover effect */
+    margin: 10px;
+    /* Space around the button */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* Subtle shadow for 3D effect */
+    width: auto;
+    /* Auto width based on content, adjust as needed */
+}
+
+/* Hover effect to darken the button color on mouse-over */
+.openbtn:hover {
+    background-color: #367c39;
+    /* Darker shade of green */
+}
+
+/* Focus and active styles for accessibility */
+.openbtn:focus,
+.openbtn:active {
+    outline: none;
+    /* Removes the outline to clean up focus state */
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);
+    /* White shadow as focus indicator */
+}
+
+/* Update Button styling*/
+.updatebtn {
+    font-size: 20px;
+    cursor: pointer;
+    background-color: lightblue;
+    color: black;
+    padding: 10px 15px;
+    border: none;
+}
+
+/* styling of Change in Update Button background color when hovered */
+.updatebtn:hover {
+    background-color: #3e8e41;
+}
+
+#mainPage {
+    transition: margin-left .5s;
+    padding: 16px;
+}
+
+/* Tab buttons styling */
+.tablink {
+    background-color: #66B2B2;
+    color: white;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    font-size: 17px;
+    width: 33.3%;
+}
+
+/* Styling of buttons to Change background color on hover */
+.tablink:hover {
+    background-color: #7EDADA;
+    color: black;
+}
+
+/* Tab content default styling */
+.tabcontent {
+    color: black;
+    display: none;
+    padding: 50px;
+    text-align: center;
+}
+
+.canvas {
+    width: 640px;
+    height: 480px;
+    margin-top: 20px;
+    border: 2px solid #B2DFDB;
+    background-color: #fafafa;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Styling of btnGroupH */
+.btnGroupH button {
+    background-color: lightblue;
+    border: 2px solid teal;
+    color: black;
+    font-size: 15px;
+    padding: 10px 20px;
+    cursor: pointer;
+    float: left;
+    min-height: 100px;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.btnGroupE {
+    display: flex;
+    flex-direction: column;
+    /* This stacks the children vertically */
+    align-items: center;
+    /* Center-align the buttons horizontally */
+    gap: 10px;
+    /* Adds space between buttons */
+    padding: 10px;
+    /* Adds padding around the buttons inside the group */
+}
+
+
+.btnGroupE button {
+    padding: 8px 15px;
+    background-color: lightblue;
+    border: 1px solid teal;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100px;
+}
+
+.btnGroupE button:hover {
+    background-color: teal;
+}
+
+/* Styling of btnGroupE for not last in group */
+.btnGroupE button:not(:last-child) {
+    border-right: none;
+}
+
+/* Styling of btnGroupE when last in group */
+.btnGroupE:after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+/* Help button styling */
+.sideToolBar .help-button {
+    width: 50%;
+    /* Makes the button take 80% of the sidebar width */
+    padding: 10px 0;
+    /* Padding top and bottom */
+    margin: 10px 0;
+    /* Margin top and bottom */
+    background-color: #008080;
+    /* Bootstrap primary color */
+    color: white;
+    /* Text color */
+    border: none;
+    /* No border */
+    border-radius: 5px;
+    /* Rounded corners */
+    cursor: pointer;
+    /* Pointer cursor on hover */
+    text-align: center;
+    /* Center text */
+    align-self: center;
+    /* Center button horizontally */
+}
+
+/* Hover effect for the button */
+.help-button:hover {
+    background-color: #26A69A;
+    color: black;
+    /* Darker shade when hovered */
+}
+
+@media (max-width: 768px) {
+    .btnGroupE {
+        flex-direction: column;
+        /* Stack buttons vertically on small screens */
+    }
+}
+
+.grid-btn {
+    background-color: #f0f0f0;
+    /* Light grey background */
+    color: #333;
+    /* Dark grey text for contrast */
+    border: 1px solid #ccc;
+    /* Subtle border */
+    padding: 10px 20px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s, box-shadow 0.2s;
+    border-radius: 5px;
+    /* Rounded corners for a modern look */
+}
+
+.grid-btn:hover {
+    background-color: #e1e1e1;
+    /* Slightly darker on hover */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    /* Soft shadow for depth */
+}
+
+.grid-btn:active {
+    background-color: #d1d1d1;
+    /* Even darker when clicked */
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+    /* Inner shadow for pressed effect */
+}
+
+.grid-btn:focus {
+    outline: none;
+    border-color: #0056b3;
+    /* Highlight color for focus */
+    box-shadow: 0 0 0 3px rgba(0, 86, 179, 0.5);
+    /* Glow effect for accessibility */
+}
+
+
+
+/* Styling of btnGroupH for not last in group */
+.btnGroupH button:not(:last-child) {
+    border-right: none;
+}
+
+/* Styling of btnGroupH when last in group */
+.btnGroupH:after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+/* Styling of btnGroupH when hovered */
+.btnGroupH button:hover {
+    background-color: teal;
+}
+
+/* Styling of buttonGroupV */
+.btnGroupV button {
+    background-color: lightblue;
+    border: 1px solid teal;
+    color: black;
+    font-size: 17px;
+    padding: 10px 24px;
+    cursor: pointer;
+    width: 20%;
+    display: block;
+    border-radius: 4px;
+}
+
+/* Styling of btnGroupV when not last child */
+.btnGroupV button:not(:last-child) {
+    border-bottom: none;
+}
+
+/* Adding the below attribute for a tooltip */
+[data-tooltip] {
+    position: relative;
+    z-index: 2;
+    cursor: pointer;
+}
+
+/* Default hide tooltip */
+[data-tooltip]:before,
+[data-tooltip]:after {
+    visibility: hidden;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=0);
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* tooltip positioning */
+[data-tooltip]:before {
+    position: absolute;
+    bottom: 110%;
+    left: 50%;
+    margin-bottom: 5px;
+    margin-left: -80px;
+    padding: 7px;
+    width: 70px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    background-color: white;
+    color: black;
+    content: attr(data-tooltip);
+    text-align: center;
+    font-size: 14px;
+    line-height: 1.2;
+}
+
+/* tooltip styling */
+[data-tooltip]:after {
+    position: absolute;
+    bottom: 110%;
+    left: 50%;
+    margin-left: -5px;
+    width: 0;
+    border-top: 5px solid #fff;
+    border-right: 5px solid transparent;
+    border-left: 5px solid transparent;
+    content: " ";
+    font-size: 0;
+    line-height: 0;
+}
+
+/* Styling of tooltip on hover */
+[data-tooltip]:hover:before,
+[data-tooltip]:hover:after {
+    visibility: visible;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+    filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=100);
+    opacity: 1;
+}
+
+/* Shape Info table */
+.leftCol {
+    text-align: right;
+}
+
+.rightCol {
+    text-align: left;
+}
+
+.shapeInfoTable {
+    margin: auto;
+}
+
+/* background for Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* Content for Modal */
+.modal-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 0;
+    border: 1px solid #888;
+    width: 80%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s
+}
+
+/* Adding animation */
+@-webkit-keyframes animatetop {
+    from {
+        top: -300px;
+        opacity: 0
+    }
+
+    to {
+        top: 0;
+        opacity: 1
+    }
+}
+
+@keyframes animatetop {
+    from {
+        top: -300px;
+        opacity: 0
+    }
+
+    to {
+        top: 0;
+        opacity: 1
+    }
+}
+
+/* Close Button */
+.close {
+    color: white;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-title {
+    padding: 2px 16px;
+    background-color: #5cb85c;
+    color: white;
+}
+
+/* Style for the line separator */
+.separator {
+    height: 2px;
+    background-color: #fff;
+    margin: 12px 0;
+}

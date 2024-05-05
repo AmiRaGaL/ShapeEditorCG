@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>2D Shape Drawing App</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.rawgit.com/konvajs/konva/2.4.0/konva.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Colors.js/1.2.4/colors.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"
+        integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/"
+        crossorigin="anonymous"></script>
+    <!-- <script type="text/javascript" src="2D_Shape_Editor.js"></script> -->
+    <script type="text/javascript" src="init.js"></script>
+    <script type="text/javascript" src="grid.js"></script>
+    <script type="text/javascript" src="drawing.js"></script>
+    <script type="text/javascript" src="undo-redo.js"></script>
+    <script type="text/javascript" src="ui-controls.js"></script>
+    <script type="text/javascript" src="file-management.js"></script>
+</head>
+
+<body>
+    <script>
+        document.addEventListener("DOMContentLoaded", initApp);
+    </script>
+
+    <!--
+The <body> consists of 2 Div elements - a sideToolBar which is collapsible(default) and main drawing page. 
+There is another div for modal pop-up that is used to show error messages.
+ -->
+
+    <!-- Side Tool Bar -->
+    <div id="toolBar" class="sideToolBar">
+        <button class="tablink" onclick="openTab('Shapes', this, 'red')">Shapes</button>
+        <button class="tablink" onclick="openTab('Shape Info', this, 'red')">Shape Info</button>
+        <button class="tablink" onclick="openTab('Export', this, 'red')">Export</button>
+        <!-- <button href="javascript:void(0)" class="tablink" onclick="closeNav()">Close</button> -->
+        <button aria-label="Close" class="closebtn" onclick="closeNav()">×</button>
+
+        <div id="Shapes" class="tabcontent">
+            <h1>Shapes</h1>
+            <div class="btnGroupV">
+                <div class="btnGroupH">
+                    <button data-tooltip="Circle" onclick="setShape('circle')"
+                        style="background-image: url(Shapes/circle.gif)"></button>
+                    <button data-tooltip="Curve" onclick="setShape('curve')"
+                        style="background-image: url(Shapes/curve.png)"></button>
+                    <button data-tooltip="Ellipse" onclick="setShape('ellipse')"
+                        style="background-image: url(Shapes/ellipse.gif)"></button>
+                    <button data-tooltip="Square" onclick="setShape('square')"
+                        style="background-image: url(Shapes/square.gif)"></button>
+                    <button data-tooltip="Rectangle" onclick="setShape('rectangle')"
+                        style="background-image: url(Shapes/rectangle.gif)"></button>
+                    <button data-tooltip="Triangle" onclick="setShape('triangle')"
+                        style="background-image: url(Shapes/triangle.gif)"></button>
+                    <button data-tooltip="Hexagon" onclick="setShape('hexagon')"
+                        style=" background-image: url(Shapes/hexagon.png)"></button>
+                    <button data-tooltip="Pentagon" onclick="setShape('pentagon')"
+                        style=" background-image: url(Shapes/pentagon.png)"></button>
+                    <button data-tooltip="Star" onclick="setShape('star')"
+                        style=" background-image: url(Shapes/star.gif)"></button>
+                    <button data-tooltip="Ring" onclick="setShape('ring')"
+                        style=" background-image: url(Shapes/ring.png)"></button>
+                    <button data-tooltip="Line" onclick="setShape('line')"
+                        style="background-image: url(Shapes/line.png)"></button>
+                    <button data-tooltip="Arrow" onclick="setShape('arrow')"
+                        style="background-image: url(Shapes/arrow.png)"></button>
+                    <button data-tooltip="Poly Line" onclick="setShape('polyline')"
+                        style="background-image: url(Shapes/polyline.gif)"></button>
+                    <button data-tooltip="Text" onclick="setShape('text')"
+                        style="background-image: url(Shapes/text.png)"></button>
+                    <button data-tooltip="Polygon" onclick="setShape('polygon')"
+                        style="background-image: url(Shapes/polygon.gif)"></button>
+                </div>
+            </div>
+        </div>
+        <div id="Shape Info" class="tabcontent"></div>
+        <div id="Export" class="tabcontent">
+            <h1>Export</h1>
+            <div class="btnGroupE">
+                <button data-tooltip="Save as pdf" onclick="canvasToPdf()">PDF</button>
+                <button data-tooltip="Save as image" onclick="canvasToJpg()">JPEG</button>
+                <button data-tooltip="Save as Json" onclick="canvasToJson()">JSON</button>
+                <button data-tooltip="Load Json File" onclick="loadJson()">Load Json</button>
+                <button data-tooltip="Export as LaTeX" onclick="downloadLaTeX(exportToLaTeX())">LaTeX</button>
+            </div>
+        </div>
+        <footer>
+            <button onclick="showHelp()" class="help-button" title="Show help">Help</button>
+        </footer>
+    </div>
+
+    <!--Main Page -->
+    <div id="mainPage">
+        <button class="openbtn" onclick="openNav()" title="Open Menu Tab">Menu</button>
+        <button id="NewCanvas" class="openbtn" onclick="newDiagram()" title="Opens New Canvas (Ctrl+Space)">New
+            Canvas</button>
+        <button id="undo" class="openbtn" onclick="undoAction()" title="Undo (Ctrl+Z)">Undo</button>
+        <button id="redo" class="openbtn" onclick="redoAction()" title="Redo (Ctrl+Y)">Redo</button>
+        <button id="copy" class="openbtn" onclick="copyShape()" title="Copy (Ctrl+C)">Copy</button>
+        <button id="paste" class="openbtn" onclick="pasteShape()" title="Paste (Ctrl+V)">Paste</button>
+
+        <div class="separator"></div>
+
+        <button data-tooltip="Toggle Grid (Ctrl+G)" id="showGrid" class="grid-btn" onclick="toggleGrid()">Grid</button>
+        <button data-tooltip="Toggle Snap Grid" id="SnapGrid" class="grid-btn" onclick="toggleSnapToGrid()">Snap
+            Grid</button>
+        <button data-tooltip="Opens Task Bar" id="toggleTaskBar" class="grid-btn" onclick="opentaskBar()">Tasks</button>
+
+
+        <!-- Canvas drawing area -->
+        <div class="canvas" id="canvas" tabindex="0">
+            <p>Canvas - 2D Shape Drawing Area</p>
+        </div>
+    </div>
+
+    <!-- modal div for error messages -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-title">
+                <span class="close">&times;</span>
+            </div>
+        </div>
+    </div>
+    <div id="taskBar" class="task-bar">
+        <h2>Tasks</h2>
+        <h3>Graphic Editor Features</h2>
+            <button onclick="selectAllShapes() ">Select All</button>
+            <ul id="shapeList">
+                <li><input type="checkbox" id="line"><label for="line">Line</label></li>
+                <li><input type="checkbox" id="triangle"><label for="triangle">Triangle</label></li>
+                <li><input type="checkbox" id="square"><label for="square">Square</label></li>
+                <li><input type="checkbox" id="rectangle"><label for="rectangle">Rectangle</label></li>
+                <li><input type="checkbox" id="circle"><label for="circle">Circle</label></li>
+                <li><input type="checkbox" id="ellipse"><label for="ellipse">Ellipse</label></li>
+                <li><input type="checkbox" id="curve"><label for="curve">Curve</label></li>
+                <li><input type="checkbox" id="polyline"><label for="polyline">Poly-line</label></li>
+                <li><input type="checkbox" id="polygon"><label for="polygon">Polygon</label></li>
+            </ul>
+
+            <h3>Operations</h2>
+                <button onclick="selectAllOperations()">Select All</button>
+                <ul id="operationList">
+                    <li><input type="checkbox" id="new"><label for="new">New (Ctrl+Space)</label></li>
+                    <li><input type="checkbox" id="selection"><label for="selection">Selection</label></li>
+                    <li><input type="checkbox" id="translation"><label for="translation">Translation</label></li>
+                    <li><input type="checkbox" id="scaling"><label for="scaling">Scaling</label></li>
+                    <li><input type="checkbox" id="rotation"><label for="rotation">Rotation</label></li>
+                    <li><input type="checkbox" id="undo"><label for="undo">Unlimited Undo (Ctrl+Z)</label></li>
+                    <li><input type="checkbox" id="redo"><label for="redo">Unlimited Redo (Ctrl+y)</label></li>
+                    <li><input type="checkbox" id="copy"><label for="copy">Copy object(s) (Ctrl+c)</label></li>
+                    <li><input type="checkbox" id="paste"><label for="paste">Paste object(s) (Ctrl+v)</label></li>
+                    <li><input type="checkbox" id="save"><label for="save">Save diagram to file (Ctrl+s)</label></li>
+                    <li><input type="checkbox" id="load"><label for="load">Load diagram from file (Ctrl+o)</label></li>
+                    <li><input type="checkbox" id="saveAsImage"><label for="saveAsImage">Save as image</label></li>
+                    <li><input type="checkbox" id="thickness"><label for="thickness">Support multiple thickness</label>
+                    </li>
+                    <li><input type="checkbox" id="color"><label for="color">Support multiple color</label></li>
+                    <li><input type="checkbox" id="drawGrid"><label for="drawGrid">Draw grid (Ctrl+g)</label></li>
+                    <li><input type="checkbox" id="snapToGrid"><label for="snapToGrid">Snap to grid</label></li>
+                    <li><input type="checkbox" id="hovertext"><label for="hovertext">Hover Text</label></li>
+                    <li><input type="checkbox" id="Help"><label for="help">Help Documentation</label> </li>
+
+                </ul>
+                <h3>Extra Credit</h3>
+                <button onclick="selectAllExtraCredit()">Select All</button>
+                <ul id="extraCreditList">
+                    <li><input type="checkbox" id="multiSelect"><label for="multiSelect">Multi-select</label></li>
+                    <li><input type="checkbox" id="grouping"><label for="grouping">Grouping objects and select</label>
+                    </li>
+                    <li><input type="checkbox" id="groupOperations"><label for="groupOperations">Operations on group as
+                            a whole</label></li>
+                    <li><input type="checkbox" id="text"><label for="text">Text</label></li>
+                    <li><input type="checkbox" id="zoom"><label for="zoom">Zoom in/Zoom out</label></li>
+                    <li><input type="checkbox" id="pan"><label for="pan">Pan/Scrollbar</label></li>
+                    <li><input type="checkbox" id="additionalShapes"><label for="additionalShapes">Additional shape
+                            families</label></li>
+                    <li><input type="checkbox" id="exportPDF"><label for="exportPDF">Export as PDF</label></li>
+                    <li><input type="checkbox" id="exportLatex"><label for="exportLatex">Export as LaTeX</label></li>
+                    <li><input type="checkbox" id="clipboardSupport"><label for="clipboardSupport">Clipboard copy-paste
+                            support</label></li>
+                    <li><input type="checkbox" id="Delete"><label for="Delete">Delete shapes</label></li>
+                    <li><input type="checkbox" id="Tasks"><label for="Tasks">Task Bar</label></li>
+                </ul>
+
+    </div>
+
+
+</body>
+
+</html>
