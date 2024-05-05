@@ -5,7 +5,7 @@ Certainly! Below is a template for your README file based on the information you
 
 # 2D Shape Editor
 
-![2D Shape Editor View](https://amiragal.github.io/ShapeEditorCG/2D_Shape_Editor.html)
+[2D Shape Editor View](https://amiragal.github.io/ShapeEditorCG/2D_Shape_Editor.html)
 
 You can access the project here
 
