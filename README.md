@@ -1,7 +1,3 @@
-"# ShapeEditorCG" 
-Certainly! Below is a template for your README file based on the information you provided:
-
----
 
 # 2D Shape Editor
 
